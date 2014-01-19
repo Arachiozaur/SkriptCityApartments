@@ -46,10 +46,10 @@ command /cityadmin <text> [<player>] [<text>]:
 			send "&2Commands:" to player
 			send "&c /cityadmin debug on &fand &c/cityadmin debug off &f- Debug mode toggling" to player
 			send "&c /cityadmin clear <player> &f- player's home reseting" to player
-			send "&c /cityadmin stats &f- number of all CA signs." to player
+			send "&c /cityadmin stats &f- amount of all CA signs." to player
 			send "&c /cityadmin signlist &f- list of all CA signs." to player
 			send "&c /cityadmin clearstats &f- list of all CA signs." to player
-			send "&c /cityadmin signclear &f- clears all CA signs. &cUse with caution&f." to player		
+			send "&c /cityadmin signclear &f- clears all CA signs. &cUse with caution!&f." to player		
 		if argument 1 is "debug":
 			if argument 3 is "on":
 				set {city.debug} to true

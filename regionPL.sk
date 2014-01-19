@@ -1,67 +1,121 @@
-#CityApartments 1.1 by Arachiozaur
+#CityApartments 1.2 by Arachiozaur
 #If you are using the code for own purposes, add me in the credits.
 #------------------Configuration start------------------
 options:
-	cityprefix: &6[&4&lCityApartments&6]&r&f #Prefix glownych komend
+	cityprefix: &6[&4&lCityApartments&6]&r&f #Prefix głównej komendy
 	debugprefix: &4&l[&r&4&lCA_DEBUG&l]&r&f  #Prefix debugowania
-	world: world                             #Swiat w ktorym sa dzialki oznaczone na tabliczkach
+	world: world                             #Świat w którym są regiony wymienione na tabliczkach CA
+	loadmessage: true                        #Wysyłanie wiadomości kiedy skrypt jest załadowany, true lub false
+	city.managing: true                      #Czy gracze (w tym admini) mogą usuwać lub dodawać graczy do swojego domu? true lub false
+	city.managing.paying: true               #Czy gracze muszą płacić za dodawanie lub usuwanie graczy ze swoich domów? true lub false
+	city.managing.addprice: 1                #Opłata za dodawanie graczy do domów, jeśli city.managing.pay wynosi true.
+	city.managing.removeprice: 1             #Opłata za usuwanie graczy z domów, jeśli city.managing.pay wynosi true.
 #------------------Configuration end------------------
 
 #------------------Script code start------------------
 on script load:
-	send "&2{Skript} &4CityApartments &6enabled!" to the console
-command /city <text>:
-	description: &6[&4&lCityApartments&6]
-	permission: skript.cityapartments
+	if {@loadmessage} is true:
+		send "&f[&6Skript&f] &r{@cityprefix} &6enabled!" to the console
+command /cityadmin <text> [<player>] [<text>]:
+	permission: skript.cityapartments.admin
+	trigger:
+		if argument 1 is "stats":
+			send "{@cityprefix} Sa %{city.stats}% tabliczki CA." to player
+		if argument 1 is "signlist":
+			send "%{signs::*}%" to player
+		if argument 1 is "clearstats":
+			set {city.stats} to 0
+			clear {signs::*}
+			send "{@cityprefix} Statystyki tabliczek CA usuniete."
+		if argument 1 is "help":
+			send "{@cityprefix}" 
+			send "" to player
+			send "&2Uzywanie tabliczek&f:" to player
+			send "&cLine 1: &fcity" to player
+			send "&cLine 2: &f[region]" to player
+			send "&cLine 3: &f[cena]" to player
+			send "&2Komendy:" to player
+			send "&c /cityadmin debug on &fi &c/cityadmin debug off &f- Wlaczanie trybu debugowania." to player
+			send "&c /cityadmin clear <player> &f- resetowanie domu gracza." to player
+			send "&c /cityadmin stats &f- liczba wszystkich tabliczek CA." to player
+			send "&c /cityadmin signlist &f- koordynaty wszystkich tabliczek CA." to player
+			send "&c /cityadmin clearstats &f- czysci statystyki tabliczek CA." to player
+			send "&c /cityadmin signclear &f- czysci wszystkie tabliczki CA. &cOstroznie!&f." to player		
+		if argument 1 is "debug":
+			if argument 3 is "on":
+				set {city.debug} to true
+				send "{@debugprefix} Debug jest on." to player
+			if argument 3 is "off":
+				set {city.debug} to false
+				send "{@debugprefix} Debug jest false." to player
+		if argument 1 is "clear":
+			set {city.limit.%argument 2%} to false
+			execute console command "rg removeowner %{region.%argument 2%}% %argument 2% -w {@world}"
+			clear {region.%argument 2%}
+			send "{@cityprefix} Dom gracza %argument 2% zostal usuniety a jego limit zostal ustawiony na &afalse&f."
+		if argument 1 is "signclear":
+			loop {signs::*}:
+				set block at location of loop-value to air
+			clear {signs::*}
+			send "{@cityprefix} Usunieto wszystkie tabliczki CA." to player
+command /city <text> [<player>]:
+	permission: skript.cityapartments.player
 	trigger:
 		if argument 1 is "help":
 			send "{@cityprefix}"
-			send ""
-			send "&2Uzywanie tabliczek&f:"
-			send "&cLinia 1: &fcity"
-			send "&cLinia 2: &f[region]"
-			send "&cLinia 3: &f[price]"
-			send "&2Komendy:"
-			send "&c /city debugon &fi &c/city debugoff &f- Tryb debug"
-			send "&c /cityreset <gracz> &f- resetowanie limitu gracza"
-			send "&c /city test &f- sprawdzanie twojego limitu"
-		if argument 1 is "debugon":
-			set {city.debug} to true
-			message "{@debugprefix} Debug jest wlaczony."
-		if argument 1 is "debugoff":
-			set {city.debug} to false
-			message "{@debugprefix} Debug jest wylaczony."
+			send "&2Commands:"
+			send "&c/city test &f- Sprawdzanie twojego statusu."
+			send "&c/city add <player> &f- Dodawanie gracza do twojego domu."
+			send "&c/city remove <player> &f- Usuwanie gracza z twojego domu."
 		if argument 1 is "test":
+			send "{@cityprefix} Twoj region to &c%{region.%player%}%&f."
 			if {city.limit.%player%} is true:
 				send "{@cityprefix} Twoj limit wynosi &ctrue&f, nie mozesz kupowac domow."
 			else:
 				send "{@cityprefix} Twoj limit wynosi &afalse&f, mozesz kupowac domy."
-command /cityreset <player>:
-	description: &6[&4&lCityApartments&6] &r&fResetowanie limitu gracza.
-	permission: skript.cityapartments.reset
-	trigger:
-		if argument 1 is set:
-			set {city.limit.%arg 1%} to false
-			send "{@cityprefix} Limit gracza %argument 1% wynosi teraz &afalse."
-			stop
+		if argument 1 is "add":
+			if {@city.managing} is true:
+				if {@city.managing.paying} is true:
+					execute console command "eco take %player% {@city.managing.addprice}"
+					send "{@cityprefix} Zaplaciles {@city.managing.addprice} za dodanie gracza &c%argument 2% &fdo swojego domu."
+				execute console command "rg addmember %{region.%player%}% %argument 2% -w {@world}"
+			else:
+				send "{@cityprefix} Zarzadzanie domem jest wylaczone."
+		if argument 1 is "remove":
+			if {@city.managing} is true:
+				if {@city.managing.paying} is true:
+					execute console command "eco take %player% {@city.managing.removeprice}"
+					send "{@cityprefix} Zaplaciles {@city.managing.removeprice} za usuniecie gracza &c%argument 2% &fz swojego domu."
+				execute console command "rg removemember %{region.%player%}% %argument 2% -w {@world}"
+			else:
+				send "{@cityprefix} Zarzadzanie domem jest wylaczone."
 on sign change:
 	if line 1 is "city":
-		set line 1 to "&6[CITY]"
-		if {city.debug} is true:
-			message "{@debugprefix} Tabliczka polozona." to player
-		if player does not have permission "skript.cityapartments.make":
-			message "{@cityprefix} Nie masz permission &4skript.city.sign &faby zrobic tabliczke &aCityApartments &f."
-			cancel event
-			stop
-		if line 2 is empty:
-			message "{@cityprefix} Drugia linia jest pusta."
-			cancel event
-			stop
-		if line 3 is empty:
-			message "{@cityprefix} Trzecia linia jest pusta."
-			cancel event
-			stop
-		send "{@cityprefix} Utworzono tabliczke!"
+		if player is op:
+			set line 1 to "&6[CITY]"
+			add 1 to {city.stats}
+			if {city.debug} is true:
+				message "{@debugprefix} Sign placed." to player
+			if player does not have permission "skript.cityapartments.make":
+				message "{@cityprefix} Nie masz permission &4skript.cityapartments.make &faby zrobic tabliczke CA."
+				cancel event
+				stop
+			if line 2 is empty:
+				message "{@cityprefix} Druga linia jest pusta."
+				cancel event
+				stop
+			if line 3 is empty:
+				message "{@cityprefix} Trzecia linia jest pusta."
+				cancel event
+				stop
+			send "{@cityprefix} Sign succesfully created!"
+		else:
+			send "{@cityprefix} Nie jestes opem!"
+on break of sign:
+	if line 1 is "&4[Apartment]" or "&6[CITY]":
+		if player is op:
+			send "{@cityprefix} Zniszczyles tabliczke CA!"
+			remove 1 from {city.stats}
 on rightclick on a sign:
 	if line 1 of the clicked block is "&6[CITY]":
 		if {city.debug} is true:
@@ -73,13 +127,17 @@ on rightclick on a sign:
 				message "{@debugprefix} Player has permission." to player
 			set {_price} to line 3 of the clicked block
 			if player's money is less than {_price}:
-				send "{@cityprefix} Nie masz pieniedzy."
+				send "{@cityprefix} Nie masz na to pieniedzy."
 				stop
+			else:
+				cancel event
 		if {city.limit.%player%} is true:
 			send "{@cityprefix} Osiagnales limit domow!"
 			cancel event
 		else:
-			send "{@cityprefix} Kupiles dom &2%line 2%&f za &c%line 3%&f $."
+			set {region.%player%} to line 2 of clicked block
+			add location of clicked block to {signs::*}
+			send "{@cityprefix} You have bought an apartment &2%line 2%&f for &c%line 3%&f $."
 			execute console command "rg addowner %line 2% %player% -w {@world}"
 			execute console command "eco take %player% %line 3%"
 			set line 1 of the clicked block to "&4[Apartment]"
@@ -91,5 +149,5 @@ on rightclick on a sign:
 		stop trigger
 on rightclick on a sign:
 	if line 1 of the clicked block is "&4[Apartment]":
-		send "{@cityprefix} Ten dom jest juz zajety."
+		send "{@cityprefix} Ten dom jest zajety."
 #------------------Script code end------------------

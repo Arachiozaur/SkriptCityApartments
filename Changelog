@@ -1,6 +1,14 @@
 1.0
-- Initial release
+    - Initial release
 
 1.1
-- Added configuration options
-- Fixed a few mistakes
+    - Added configuration options and fixed a few mistakes.
+	
+1.2
+
+    - New commands code
+    - You need a permission to make CA signs
+    - Added more options
+    - Added managing homes (adding and removing players) and optional payment for it
+    - Now there are separate commands for players and admins
+    - Changes in permissions

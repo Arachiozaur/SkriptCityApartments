@@ -7,3 +7,6 @@ My script allows you to sell homes with signs.
 It's in very early stage so please report any bugs.
 
 REQUIRED PLUGINS: WORLDEDIT, WORLDGUARD, PERMISSIONSEX
+
+Installation:
+Drop .sk file to plugins/Skript/scripts folder.

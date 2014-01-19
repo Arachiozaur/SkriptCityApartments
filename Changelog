@@ -13,7 +13,7 @@
 	- Changes in permissions
 
 1.3
-	- Added optional player command spam protection
+	- Added optional /city info spam protection
 	- More configuration options
 	- New admin command
 	- New player command for checking who's added in your home cuboid

@@ -1,0 +1,84 @@
+#CityApartments 1.0 by Arachiozaur
+#If you are changing code for own purposes, add me in the credits.
+on script load:
+	send "&2{Skript} &4CityApartments &6enabled!" to the console
+command /city <text>:
+	description: &6[&4&lCityApartments&6]
+	permission: skript.cityapartments
+	trigger:
+		if argument 1 is "help":
+			send "&4Uzywanie tabliczek&f:"
+			send "&cLine 1: &fcity"
+			send "&cLine 1: &f[region]"
+			send "&cLine 1: &f[cena]"
+			send "&4Komendy:"
+			send "&c /city debugon &fi &c/city debugoff &f- Tryb debug"
+			send "&c /cityreset <gracz> &f- resetowanie limitu gracza"
+			send "&c /city test &f- sprawdzanie twojego limitu"
+		if argument 1 is "debugon":
+			set {city.debug} to true
+			message "&4&l[&r&4&lDEBUG&l]&r&f Debug jest on."
+		if argument 1 is "debugoff":
+			set {city.debug} to false
+			message "&4&l[&r&4&lDEBUG&l]&r&f Debug jest off."
+		if argument 1 is "test":
+			if {city.limit.%player%} is true:
+				send "&4&l[&r&4&lCA_DEBUG&l]&r&f Twoj limit wynosi &ctrue&f, nie mozesz kupowac domow."
+			else:
+				send "&4&l[&r&4&lCA_DEBUG&l]&r&f Twoj limit wynosi &afalse&f, mozesz kupowac domy."
+command /cityreset <player>:
+	description: &6[&4&lCityApartments&6] &r&fResetowanie limitu gracza.
+	permission: skript.cityapartments.reset
+	trigger:
+		if argument 1 is set:
+			set {city.limit.%arg 1%} to false
+			send "&4&l[&r&6CA&4&l]&r&f Limit gracza %argument 1% wynosi teraz false."
+			stop
+on sign change:
+	if line 1 is "city":
+		set line 1 to "&6[CITY]"
+		if {city.debug} is true:
+			message "&4&l[&r&4&lCA_DEBUG&l]&r&fSign placed." to player
+		if player does not have permission "skript.cityapartments.make":
+			message "&4&l[&r&6CA&4&l]&r&f Nie masz permission &4skript.city.sign &faby zrobic tabliczke &aCityApartments &f."
+			cancel event
+			stop
+		if line 2 is empty:
+			message "&4&l[&r&6CA&4&l]&r&c Drugia linia jest pusta."
+			cancel event
+			stop
+		if line 3 is empty:
+			message "&4&l[&r&6CA&4&l]&r&c Trzecia linia jest pusta."
+			cancel event
+			stop
+		send "&4&l[&r&6CA&4&l]&r&f Utworzono tabliczke!"
+on rightclick on a sign:
+	if line 1 of the clicked block is "&6[CITY]":
+		if {city.debug} is true:
+			message "&4&l[&r&4&lCA_DEBUG&l]&r&f Buy sign hit." to player
+		if {city.debug} is true:
+			message "Clicked sign's line 1 is city" to player
+		if player has permission "skript.cityapartments.buy":
+			if {city.debug} is true:
+				message "&4&l[&r&4&lCA_DEBUG&l]&r&f Player has permission." to player
+			set {_price} to line 3 of the clicked block
+			if player's money is less than {_price}:
+				send "&4&l[&r&6CA&4&l]&r&cNie masz pieniedzy."
+				stop
+		if {city.limit.%player%} is true:
+			send "&4&l[&r&6CA&4&l]&r&f Osiagnales limit domow!"
+			cancel event
+		else:
+			send "&4&l[&r&6CA&4&l]&r&f Kupiles dom &2%line 2%&f za &c%line 3%&f $."
+			execute console command "rg addowner %line 2% %player% -w world"
+			execute console command "eco take %player% %line 3%"
+			set line 1 of the clicked block to "&4[Apartment]"
+			set line 2 of the clicked block to "%player%"
+			set line 3 of the clicked block to " "
+			set {city.limit.%player%} to true
+			stop
+	else:
+		stop trigger
+on rightclick on a sign:
+	if line 1 of the clicked block is "&4[Apartment]":
+		send "&4&l[&r&6CA&4&l]&r&c Ten dom jest juz zajety."

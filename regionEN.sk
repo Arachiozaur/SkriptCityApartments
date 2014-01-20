@@ -1,4 +1,4 @@
-#CityApartments 1.3 by Arachiozaur
+#CityApartments 1.2 by Arachiozaur
 #If you are using the code for own purposes, add me in the credits.
 #------------------Configuration start------------------
 options:
@@ -6,20 +6,11 @@ options:
 	debugprefix: &4&l[&r&4&lCA_DEBUG&l]&r&f  #Debuging prefix
 	world: world                             #A world in which there are regions specified on CA signs
 	loadmessage: true                        #Send message when script is loaded, true or false
-	sellinghomes: true                       #Can players (including admins) sell homes?
 	city.managing: true                      #Can players (including admins) manage (add or remove members) their homes? 
 	city.managing.paying: true                  #Do players have to pay for managing (adding or removing members) their homes?
 	city.managing.addprice: 1                #Payment for adding members to home, if city.managing.pay is true.
 	city.managing.removeprice: 1             #Payment for removing members from home, if city.managing.pay is true.
-	interval: true                           #Should interval between using player commands be enabled?
-	cmdinterval: 2 seconds                   #Interval between using player commands in seconds, default is 2 seconds.
 #------------------Configuration end------------------
-
-#------------------Variables configuration start------------------
-#DO NOT MODIFY IT, UNLESS YOU ARE SURE YOU KNOW WHAT YOU ARE DOING
-variables:
-	cmd.%player% = true
-#------------------Variables configuration end------------------
 
 #------------------Script code start------------------
 on script load:
@@ -48,8 +39,8 @@ command /cityadmin <text> [<player>] [<text>]:
 			send "&c /cityadmin clear <player> &f- player's home reseting" to player
 			send "&c /cityadmin stats &f- amount of all CA signs." to player
 			send "&c /cityadmin signlist &f- list of all CA signs." to player
-			send "&c /cityadmin clearstats &f- list of all CA signs." to player
-			send "&c /cityadmin signclear &f- clears all CA signs. &cUse with caution!&f." to player		
+			send "&c /cityadmin clearstats &f- clears all CA signs statistics." to player
+			send "&c /cityadmin signclear &f- clears all CA signs. &cUse with caution&f." to player		
 		if argument 1 is "debug":
 			if argument 3 is "on":
 				set {city.debug} to true
@@ -58,21 +49,15 @@ command /cityadmin <text> [<player>] [<text>]:
 				set {city.debug} to false
 				send "{@debugprefix} Debug is false." to player
 		if argument 1 is "clear":
-			if {@sellinghomes} is true:
-				set {city.limit.%argument 2%} to false
-				execute console command "rg removeowner %{region.%argument 2%}% %argument 2% -w {@world}"
-				clear {region.%argument 2%}
-				send "{@cityprefix} %argument 2%'s home and his home limit has been set to &afalse&f."
-			else:
-				send "{@cityprefix} &cReseting homes is disabled."
+			set {city.limit.%argument 2%} to false
+			execute console command "rg removeowner %{region.%argument 2%}% %argument 2% -w {@world}"
+			clear {region.%argument 2%}
+			send "{@cityprefix} %argument 2%'s home and his home limit has been set to &afalse&f."
 		if argument 1 is "signclear":
 			loop {signs::*}:
 				set block at location of loop-value to air
 			clear {signs::*}
 			send "{@cityprefix} All signs removed." to player
-		if argument 1 is "intervalreset":
-			set {cmd.%argument 2%} to true
-			send "{@cityprefix} {cmd.%player%} has been set to true."
 command /city <text> [<player>]:
 	permission: skript.cityapartments.player
 	trigger:
@@ -104,28 +89,6 @@ command /city <text> [<player>]:
 				execute console command "rg removemember %{region.%player%}% %argument 2% -w {@world}"
 			else:
 				send "{@cityprefix} Sorry, but home managing is disabled."
-		if argument 1 is "info":
-			if {@interval} is true:
-				if {city.debug} is true:
-					message "{@debugprefix} Interval is true." to player
-				if {cmd.%player%} is true:
-					if {city.debug} is true:
-						message "{@debugprefix} {cmd.%player%} is true." to player
-					execute console command "pex user %player% add worldguard.region.info.* {@world}"
-					make player execute command "rg info %{region.%player%}%"
-					execute console command "pex user %player% remove worldguard.region.info.* {@world}"
-					set {cmd.%player%} to false
-					wait {@cmdinterval}
-					set {cmd.%player%} to true
-				if {cmd.%player%} is false:
-					send "{@cityprefix} Don't spam!"
-					stop
-			if {@interval} is false:
-				if {city.debug} is true:
-					message "{@debugprefix} Interval is false." to player
-				execute console command "pex user %player% add worldguard.region.info.* {@world}"
-				make player execute command "rg info %{region.%player%}%"
-				execute console command "pex user %player% remove worldguard.region.info.* {@world}"
 on sign change:
 	if line 1 is "city":
 		if player is op:

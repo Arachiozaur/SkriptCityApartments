@@ -1,5 +1,6 @@
 #CityApartments 1.3 English language file
 #You can use it for translating CityApartments to another language
+lang: "Current language is:"
 onload: "enabled!"
 amountofsigns: "Amount of CA signs:"
 listofsigns: "List of CA signs:"

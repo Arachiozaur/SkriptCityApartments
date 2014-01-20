@@ -61,6 +61,8 @@ on script load:
 		set {lang.remove3} to value of "remove3" pulled from "CAlangEN"
 		set {lang.managingdisabled} to value of "managingdisabled" pulled from "CAlangEN"
 		set {lang.dontspam} to value of "dontspam" pulled from "CAlangEN"
+		set {lang.lang} to value of "lang" pulled from "CAlangEN"
+		set {language} to "English"
 	if {@language} is "PL":
 		set {lang.onload} to value of "onload" pulled from "CAlangPL"
 		set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangPL"
@@ -98,11 +100,15 @@ on script load:
 		set {lang.remove3} to value of "remove3" pulled from "CAlangPL"
 		set {lang.managingdisabled} to value of "managingdisabled" pulled from "CAlangPL"
 		set {lang.dontspam} to value of "dontspam" pulled from "CAlangPL"
+		set {lang.lang} to value of "lang" pulled from "CAlangPL"
+		set {language} to "Polski"
 	if {@loadmessage} is true:
 		send "&f[&6Skript&f] &r{@cityprefix} &6%{lang.onload}%" to the console
 command /cityadmin <text> [<player>] [<text>]:
 	permission: skript.cityapartments.admin
 	trigger:
+		if argument 1 is "lang":
+			send "{@cityprefix} %{lang.lang}% %{language}%" to player
 		if argument 1 is "stats":
 			send "{@cityprefix} %{lang.amountofsigns}% %{city.stats}%" to player
 		if argument 1 is "signlist":

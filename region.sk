@@ -1,0 +1,264 @@
+#CityApartments 1.3 by Arachiozaur
+#If you are using the code for own purposes, add me in the credits.
+#------------------Configuration start------------------
+options:
+	language: "EN"                           #Select your language, english is en, polish is pl, lang[EN or PL].yml file is required
+	cityprefix: &6[&4&lCityApartments&6]&r&f #Main commands prefix
+	debugprefix: &4&l[&r&4&lCA_DEBUG&l]&r&f  #Debuging prefix
+	world: world                             #A world in which there are regions specified on CA signs
+	loadmessage: true                        #Send message when script is loaded, true or false
+	city.managing: true                      #Can players (including admins) manage (add or remove members) their homes? 
+	city.managing.paying: true               #Do players have to pay for managing (adding or removing members) their homes?
+	city.managing.addprice: 1                #Payment for adding members to home, if city.managing.pay is true.
+	city.managing.removeprice: 1             #Payment for removing members from home, if city.managing.pay is true.
+	interval: true                           #Should interval between using /city info be enabled?
+	cmdinterval: 2 seconds                   #Interval between using player commands in seconds, default is 2 seconds.
+#------------------Configuration end------------------
+
+#------------------Variables configuration start------------------
+#DO NOT MODIFY IT, UNLESS YOU ARE SURE YOU KNOW WHAT YOU ARE DOING
+variables:
+	cmd.%player% = true
+	city.debug = false
+#------------------Variables configuration end------------------
+
+#------------------Script code start------------------
+on script load:
+	if {@language} is "EN":
+		set {lang.onload} to value of "onload" pulled from "CAlangEN"
+		set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangEN"
+		set {lang.listofsigns} to value of "listofsigns" pulled from "CAlangEN"
+		set {lang.clearstats} to value of "clearstats" pulled from "CAlangEN"
+		set {lang.adminhelp1} to value of "adminhelp1" pulled from "CAlangEN"
+		set {lang.adminhelp2} to value of "adminhelp2" pulled from "CAlangEN"
+		set {lang.adminhelp3} to value of "adminhelp3" pulled from "CAlangEN"
+		set {lang.adminhelp4} to value of "adminhelp4" pulled from "CAlangEN"
+		set {lang.adminhelp5} to value of "adminhelp5" pulled from "CAlangEN"
+		set {lang.adminhelp6} to value of "adminhelp6" pulled from "CAlangEN"
+		set {lang.adminhelp7} to value of "adminhelp7" pulled from "CAlangEN"
+		set {lang.adminhelp8} to value of "adminhelp8" pulled from "CAlangEN"
+		set {lang.adminhelp9} to value of "adminhelp9" pulled from "CAlangEN"
+		set {lang.adminhelp10} to value of "adminhelp10" pulled from "CAlangEN"
+		set {lang.adminhelp11} to value of "adminhelp11" pulled from "CAlangEN"
+		set {lang.debugon} to value of "debugon" pulled from "CAlangEN"
+		set {lang.debugoff} to value of "debugoff" pulled from "CAlangEN"
+		set {lang.clearmsg} to value of "clearmsg" pulled from "CAlangEN"
+		set {lang.clearerrormsg} to value of "clearerrormsg" pulled from "CAlangEN"
+		set {lang.signclearmsg} to value of "signclearmsg" pulled from "CAlangEN"
+		set {lang.intervalresetmsg} to value of "intervalresetmsg" pulled from "CAlangEN"
+		set {lang.playerhelp1} to value of "playerhelp1" pulled from "CAlangEN"
+		set {lang.playerhelp2} to value of "playerhelp2" pulled from "CAlangEN"
+		set {lang.playerhelp3} to value of "playerhelp3" pulled from "CAlangEN"
+		set {lang.playerhelp4} to value of "playerhelp4" pulled from "CAlangEN"
+		set {lang.msgtest1} to value of "msgtest1" pulled from "CAlangEN"
+		set {lang.msgtest2} to value of "msgtest2" pulled from "CAlangEN"
+		set {lang.msgtest3} to value of "msgtest3" pulled from "CAlangEN"
+		set {lang.add1} to value of "add1" pulled from "CAlangEN"
+		set {lang.add2} to value of "add2" pulled from "CAlangEN"
+		set {lang.add3} to value of "add3" pulled from "CAlangEN"
+		set {lang.remove1} to value of "remove1" pulled from "CAlangEN"
+		set {lang.remove2} to value of "remove2" pulled from "CAlangEN"
+		set {lang.remove3} to value of "remove3" pulled from "CAlangEN"
+		set {lang.managingdisabled} to value of "managingdisabled" pulled from "CAlangEN"
+		set {lang.dontspam} to value of "dontspam" pulled from "CAlangEN"
+	if {@language} is "PL":
+		set {lang.onload} to value of "onload" pulled from "CAlangPL"
+		set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangPL"
+		set {lang.listofsigns} to value of "listofsigns" pulled from "CAlangPL"
+		set {lang.clearstats} to value of "clearstats" pulled from "CAlangPL"
+		set {lang.adminhelp1} to value of "adminhelp1" pulled from "CAlangPL"
+		set {lang.adminhelp2} to value of "adminhelp2" pulled from "CAlangPL"
+		set {lang.adminhelp3} to value of "adminhelp3" pulled from "CAlangPL"
+		set {lang.adminhelp4} to value of "adminhelp4" pulled from "CAlangPL"
+		set {lang.adminhelp5} to value of "adminhelp5" pulled from "CAlangPL"
+		set {lang.adminhelp6} to value of "adminhelp6" pulled from "CAlangPL"
+		set {lang.adminhelp7} to value of "adminhelp7" pulled from "CAlangPL"
+		set {lang.adminhelp8} to value of "adminhelp8" pulled from "CAlangPL"
+		set {lang.adminhelp9} to value of "adminhelp9" pulled from "CAlangPL"
+		set {lang.adminhelp10} to value of "adminhelp10" pulled from "CAlangPL"
+		set {lang.adminhelp11} to value of "adminhelp11" pulled from "CAlangPL"
+		set {lang.debugon} to value of "debugon" pulled from "CAlangPL"
+		set {lang.debugoff} to value of "debugoff" pulled from "CAlangPL"
+		set {lang.clearmsg} to value of "clearmsg" pulled from "CAlangPL"
+		set {lang.clearerrormsg} to value of "clearerrormsg" pulled from "CAlangPL"
+		set {lang.signclearmsg} to value of "signclearmsg" pulled from "CAlangPL"
+		set {lang.intervalresetmsg} to value of "intervalresetmsg" pulled from "CAlangPL"
+		set {lang.playerhelp1} to value of "playerhelp1" pulled from "CAlangPL"
+		set {lang.playerhelp2} to value of "playerhelp2" pulled from "CAlangPL"
+		set {lang.playerhelp3} to value of "playerhelp3" pulled from "CAlangPL"
+		set {lang.playerhelp4} to value of "playerhelp4" pulled from "CAlangPL"
+		set {lang.msgtest1} to value of "msgtest1" pulled from "CAlangPL"
+		set {lang.msgtest2} to value of "msgtest2" pulled from "CAlangPL"
+		set {lang.msgtest3} to value of "msgtest3" pulled from "CAlangPL"
+		set {lang.add1} to value of "add1" pulled from "CAlangPL"
+		set {lang.add2} to value of "add2" pulled from "CAlangPL"
+		set {lang.add3} to value of "add3" pulled from "CAlangPL"
+		set {lang.remove1} to value of "remove1" pulled from "CAlangPL"
+		set {lang.remove2} to value of "remove2" pulled from "CAlangPL"
+		set {lang.remove3} to value of "remove3" pulled from "CAlangPL"
+		set {lang.managingdisabled} to value of "managingdisabled" pulled from "CAlangPL"
+		set {lang.dontspam} to value of "dontspam" pulled from "CAlangPL"
+	if {@loadmessage} is true:
+		send "&f[&6Skript&f] &r{@cityprefix} &6%{lang.onload}%" to the console
+command /cityadmin <text> [<player>] [<text>]:
+	permission: skript.cityapartments.admin
+	trigger:
+		if argument 1 is "stats":
+			send "{@cityprefix} %{lang.amountofsigns}% %{city.stats}%" to player
+		if argument 1 is "signlist":
+			send "{@cityprefix} %{lang.listofsigns}% %{signs::*}%" to player
+		if argument 1 is "clearstats":
+			set {city.stats} to 0
+			clear {signs::*}
+			send "{@cityprefix} %{lang.clearstats}%"
+		if argument 1 is "help":
+			send "{@cityprefix}" 
+			send "&2%{lang.adminhelp1}%" to player
+			send "&c%{lang.adminhelp2}%" to player
+			send "&c%{lang.adminhelp3}%" to player
+			send "&c%{lang.adminhelp4}%" to player
+			send "&2%{lang.adminhelp5}%" to player
+			send "&c%{lang.adminhelp6}% " to player
+			send "&c%{lang.adminhelp7}% " to player
+			send "&c%{lang.adminhelp8}% " to player
+			send "&c%{lang.adminhelp9}% " to player
+			send "&c%{lang.adminhelp10}% " to player
+			send "&c%{lang.adminhelp11}% " to player		
+		if argument 1 is "debug":
+			if argument 3 is "on":
+				set {city.debug} to true
+				send "{@debugprefix} %{lang.debugon}%" to player
+			if argument 3 is "off":
+				set {city.debug} to false
+				send "{@debugprefix} %{lang.debugoff}%" to player
+		if argument 1 is "clear":
+			if argument 2 is not set:
+				send "{@cityprefix} %{lang.clearerrormsg}%"
+				stop
+			set {city.limit.%argument 2%} to false
+			execute console command "rg removeowner %{region.%argument 2%}% %argument 2% -w {@world}"
+			clear {region.%argument 2%}
+			send "{@cityprefix} %argument 2%%{lang.clearmsg}%"
+		if argument 1 is "signclear":
+			loop {signs::*}:
+				set block at location of loop-value to air
+			clear {signs::*}
+			send "{@cityprefix} %{lang.signclearmsg}%." to player
+		if argument 1 is "intervalreset":
+			set {cmd.%argument 2%} to true
+			send "{@cityprefix} {cmd.%argument 2%} %{lang.intervalresetmsg}%"
+command /city <text> [<player>]:
+	permission: skript.cityapartments.player
+	trigger:
+		if argument 1 is "help":
+			send "{@cityprefix}"
+			send "&2Commands:"
+			send "&c/city test - Checking your home status."
+			send "&c/city add <player> - Add player to your home."
+			send "&c/city remove <player> - Remove player from your home."
+		if argument 1 is "test":
+			send "{@cityprefix} %{lang.msgtest1}% &c%{region.%player%}%&f."
+			if {city.limit.%player%} is true:
+				send "{@cityprefix} %{lang.msgtest2}%"
+			else:
+				send "{@cityprefix} %{lang.msgtest3}%"
+		if argument 1 is "add":
+			if {@city.managing} is true:
+				if {@city.managing.paying} is true:
+					execute console command "eco take %player% {@city.managing.addprice}"
+					send "{@cityprefix} %{lang.add1}% {@city.managing.addprice} %{lang.add2}% &c%argument 2% &f%{lang.add3}%"
+				execute console command "rg addmember %{region.%player%}% %argument 2% -w {@world}"
+			else:
+				send "{@cityprefix} %{lang.managingdisabled}%"
+		if argument 1 is "remove":
+			if {@city.managing} is true:
+				if {@city.managing.paying} is true:
+					execute console command "eco take %player% {@city.managing.removeprice}"
+					send "{@cityprefix} %{lang.remove1}% {@city.managing.removeprice} %{lang.remove2}% &c%argument 2% &f%{lang.remove3}%."
+				execute console command "rg removemember %{region.%player%}% %argument 2% -w {@world}"
+			else:
+				send "{@cityprefix} %{lang.managingdisabled}%"
+		if argument 1 is "info":
+			if {@interval} is true:
+				if {city.debug} is true:
+					message "{@debugprefix} Interval is true." to player
+				if {cmd.%player%} is true:
+					if {city.debug} is true:
+						message "{@debugprefix} {cmd.%player%} is true." to player
+					execute console command "pex user %player% add worldguard.region.info.* {@world}"
+					make player execute command "rg info %{region.%player%}%"
+					execute console command "pex user %player% remove worldguard.region.info.* {@world}"
+					set {cmd.%player%} to false
+					wait {@cmdinterval}
+					set {cmd.%player%} to true
+				if {cmd.%player%} is false:
+					send "{@cityprefix} %{lang.dontspam}%"
+					stop
+			if {@interval} is false:
+				if {city.debug} is true:
+					message "{@debugprefix} Interval is false." to player
+				execute console command "pex user %player% add worldguard.region.info.* {@world}"
+				make player execute command "rg info %{region.%player%}%"
+				execute console command "pex user %player% remove worldguard.region.info.* {@world}"
+on sign change:
+	if line 1 is "city":
+		if player is op:
+			set line 1 to "&6[CITY]"
+			add 1 to {city.stats}
+			if {city.debug} is true:
+				message "{@debugprefix} Sign placed." to player
+			if player does not have permission "skript.cityapartments.make":
+				message "{@cityprefix} You don't have permission &4skript.city.sign &fto make a &aCityApartments &fsign."
+				cancel event
+				stop
+			if line 2 is empty:
+				message "{@cityprefix} Second line is not set."
+				cancel event
+				stop
+			if line 3 is empty:
+				message "{@cityprefix} Third line is not set."
+				cancel event
+				stop
+			send "{@cityprefix} Sign succesfully created!"
+		else:
+			send "{@cityprefix} You don't have permission to make CA signs!"
+on break of sign:
+	if line 1 is "&4[Apartment]" or "&6[CITY]":
+		if player is op:
+			send "{@cityprefix} You have destroyed CityApartments sign!"
+			remove 1 from {city.stats}
+on rightclick on a sign:
+	if line 1 of the clicked block is "&6[CITY]":
+		if {city.debug} is true:
+			message "{@debugprefix} Buy sign hit." to player
+		if {city.debug} is true:
+			message "{@debugprefix} Clicked sign's line 1 is city." to player
+		if player has permission "skript.cityapartments.buy":
+			if {city.debug} is true:
+				message "{@debugprefix} Player has permission." to player
+			set {_price} to line 3 of the clicked block
+			if player's money is less than {_price}:
+				send "{@cityprefix} You don't have enough money."
+				stop
+			else:
+				cancel event
+		if {city.limit.%player%} is true:
+			send "{@cityprefix} You have reached your apartment limit!"
+			cancel event
+		else:
+			set {region.%player%} to line 2 of clicked block
+			add location of clicked block to {signs::*}
+			send "{@cityprefix} You have bought an apartment &2%line 2%&f for &c%line 3%&f $."
+			execute console command "rg addowner %line 2% %player% -w {@world}"
+			execute console command "eco take %player% %line 3%"
+			set line 1 of the clicked block to "&4[Apartment]"
+			set line 2 of the clicked block to "%player%"
+			set line 3 of the clicked block to " "
+			set {city.limit.%player%} to true
+			stop
+	else:
+		stop trigger
+on rightclick on a sign:
+	if line 1 of the clicked block is "&4[Apartment]":
+		send "{@cityprefix} This apartment is occupied."
+#------------------Script code end------------------

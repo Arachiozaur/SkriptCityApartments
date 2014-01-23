@@ -162,29 +162,12 @@ command /city <text> [<player>]:
 			send "&c/city test - Checking your home status."
 			send "&c/city add <player> - Add player to your home."
 			send "&c/city remove <player> - Remove player from your home."
-		if argument 1 is "test":
+		if argument 1 is "info":
 			send "{@cityprefix} %{lang.msgtest1}% &c%{region.%player%}%&f."
 			if {city.limit.%player%} is true:
 				send "{@cityprefix} %{lang.msgtest2}%"
 			else:
 				send "{@cityprefix} %{lang.msgtest3}%"
-		if argument 1 is "add":
-			if {@city.managing} is true:
-				if {@city.managing.paying} is true:
-					execute console command "eco take %player% {@city.managing.addprice}"
-					send "{@cityprefix} %{lang.add1}% {@city.managing.addprice} %{lang.add2}% &c%argument 2% &f%{lang.add3}%"
-				execute console command "rg addmember %{region.%player%}% %argument 2% -w {@world}"
-			else:
-				send "{@cityprefix} %{lang.managingdisabled}%"
-		if argument 1 is "remove":
-			if {@city.managing} is true:
-				if {@city.managing.paying} is true:
-					execute console command "eco take %player% {@city.managing.removeprice}"
-					send "{@cityprefix} %{lang.remove1}% {@city.managing.removeprice} %{lang.remove2}% &c%argument 2% &f%{lang.remove3}%."
-				execute console command "rg removemember %{region.%player%}% %argument 2% -w {@world}"
-			else:
-				send "{@cityprefix} %{lang.managingdisabled}%"
-		if argument 1 is "info":
 			if {@interval} is true:
 				if {city.debug} is true:
 					message "{@debugprefix} Interval is true." to player
@@ -206,6 +189,22 @@ command /city <text> [<player>]:
 				execute console command "pex user %player% add worldguard.region.info.* {@world}"
 				make player execute command "rg info %{region.%player%}%"
 				execute console command "pex user %player% remove worldguard.region.info.* {@world}"
+		if argument 1 is "add":
+			if {@city.managing} is true:
+				if {@city.managing.paying} is true:
+					execute console command "eco take %player% {@city.managing.addprice}"
+					send "{@cityprefix} %{lang.add1}% {@city.managing.addprice} %{lang.add2}% &c%argument 2% &f%{lang.add3}%"
+				execute console command "rg addmember %{region.%player%}% %argument 2% -w {@world}"
+			else:
+				send "{@cityprefix} %{lang.managingdisabled}%"
+		if argument 1 is "remove":
+			if {@city.managing} is true:
+				if {@city.managing.paying} is true:
+					execute console command "eco take %player% {@city.managing.removeprice}"
+					send "{@cityprefix} %{lang.remove1}% {@city.managing.removeprice} %{lang.remove2}% &c%argument 2% &f%{lang.remove3}%."
+				execute console command "rg removemember %{region.%player%}% %argument 2% -w {@world}"
+			else:
+				send "{@cityprefix} %{lang.managingdisabled}%"
 on sign change:
 	if line 1 is "city":
 		if player is op:

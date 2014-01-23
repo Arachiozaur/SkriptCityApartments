@@ -18,3 +18,6 @@
 	- New admin command
 	- New player command for checking who's added in your home cuboid
 	- Added language files
+	
+1.4
+    - /city info and /city test are now one command

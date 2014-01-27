@@ -155,8 +155,8 @@ command /cityadmin <text> [<player>] [<text>]:
 						set {lang.language} to "English"
 						set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangEN"
 						set {lang.reloadmsg2} to value of "reloadmsg1" pulled from "CAlangEN"
-						wait 10 ticks:
-							send "{@cityprefix} %{lang.reloadmsg2}%"
+						wait a second
+						send "{@cityprefix} %{lang.reloadmsg2}%"
 					if {@language} is "PL":
 						set {lang.onload} to value of "onload" pulled from "CAlangPL"
 						set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangPL"
@@ -198,8 +198,8 @@ command /cityadmin <text> [<player>] [<text>]:
 						set {lang.language} to "Polski"
 						set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangPL"
 						set {lang.reloadmsg2} to value of "reloadmsg1" pulled from "CAlangPL"
-						wait 10 ticks:
-							send "{@cityprefix} %{lang.reloadmsg2}%"
+						wait a second
+						send "{@cityprefix} %{lang.reloadmsg2}%"
 			else:
 				send "{@cityprefix} %{lang.reloadmsg1}%"
 		if argument 1 is "lang":

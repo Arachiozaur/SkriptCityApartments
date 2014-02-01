@@ -1,11 +1,11 @@
-#|--------------------------------------------------------------------|
-#|CityApartments 1.4 by Arachiozaur                                   |
-#|If you are using the code for own purposes, add me in the credits.  |
-#|--------------------------------------------------------------------|
+#|-------------------------------------------------------------------|
+#|CityApartments 1.4 by Arachiozaur                                  |
+#|If you are using the code for own purposes, add me in the credits. |
+#|-------------------------------------------------------------------|
 
 #------------------Configuration start------------------
 options:
-	language: "EN"                           #Select your language, english is en, polish is pl, langEN.yml langPL.yml file is required
+	language: "EN"                           #Select your language, english is en, polish is pl, langEN.yml or langPL.yml file is required
 	cityprefix: &6[&4&lCityApartments&6]&r&f #Main commands prefix
 	debugprefix: &4&l[&r&4&lCA_DEBUG&l]&r&f  #Debuging prefix
 	world: world                             #A world in which there are regions specified on CA signs
@@ -115,10 +115,10 @@ command /cityadmin <text> [<player>] [<text>]:
 	permission: skript.cityapartments.admin
 	trigger:
 		if argument 1 is "reload":
-			send "{@prefix} %{lang.reloadmsg1}"
+			send "{@cityprefix} %{lang.reloadmsg1}"
 			execute console command "/sk reload region"
 			wait 1 second
-			send "{@prefix} %{lang.reloadmsg2}"
+			send "{@cityprefix} %{lang.reloadmsg2}"
 		if argument 1 is "lang":
 			send "{@cityprefix} %{lang.lang}% %{language}%" to player
 		if argument 1 is "stats":
@@ -170,10 +170,10 @@ command /city <text> [<player>]:
 	trigger:
 		if argument 1 is "help":
 			send "{@cityprefix}"
-			send "&2%{lang.playerhelp1}"
-			send "&c%{lang.playerhelp2}"
-			send "&c%{lang.playerhelp3}"
-			send "&c%{lang.playerhelp4}"
+			send "&2Commands:"
+			send "&c/city test - Checking your home status."
+			send "&c/city add <player> - Add player to your home."
+			send "&c/city remove <player> - Remove player from your home."
 		if argument 1 is "test":
 			send "{@cityprefix} %{lang.msgtest1}% &c%{region.%player%}%&f."
 			if {city.limit.%player%} is true:

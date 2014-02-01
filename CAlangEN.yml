@@ -1,4 +1,4 @@
-#CityApartments 1.3 English language file
+#CityApartments 1.4 English language file
 #You can use it for translating CityApartments to another language
 lang: "Current language is:"
 onload: "enabled!"
@@ -37,5 +37,5 @@ remove2: "for removing player"
 remove3: "from your home."
 managingdisabled: "Sorry, but home managing is disabled."
 dontspam: "Don't spam!"
-reloadmsg1: "You have to choose reload mode: lang or all."
+reloadmsg1: "Reloading script..."
 reloadmsg2: "Reload complete."

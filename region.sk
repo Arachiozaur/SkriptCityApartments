@@ -5,7 +5,7 @@
 
 #------------------Configuration start------------------
 options:
-	language: "EN"                           #Select your language, english is en, polish is pl, lang[EN or PL].yml file is required
+	language: "EN"                           #Select your language, english is en, polish is pl, langEN.yml langPL.yml file is required
 	cityprefix: &6[&4&lCityApartments&6]&r&f #Main commands prefix
 	debugprefix: &4&l[&r&4&lCA_DEBUG&l]&r&f  #Debuging prefix
 	world: world                             #A world in which there are regions specified on CA signs
@@ -18,12 +18,12 @@ options:
 	cmdinterval: 2 seconds                   #Interval between using player commands in seconds, default is 2 seconds.
 #------------------Configuration end------------------
 
-#------------------Variables configuration start------------------
-#DO NOT MODIFY IT, UNLESS YOU ARE SURE YOU KNOW WHAT YOU ARE DOING
+#------------------Variables start------------------
+#DO NOT TOUCH IT
 variables:
 	cmd.%player% = true
 	city.debug = false
-#------------------Variables configuration end------------------
+#------------------Variables end------------------
 
 #------------------Script code start------------------
 on script load:

@@ -170,10 +170,10 @@ command /city <text> [<player>]:
 	trigger:
 		if argument 1 is "help":
 			send "{@cityprefix}"
-			send "&2Commands:"
-			send "&c/city test - Checking your home status."
-			send "&c/city add <player> - Add player to your home."
-			send "&c/city remove <player> - Remove player from your home."
+			send "&2%{lang.playerhelp1}"
+			send "&c%{lang.playerhelp2}"
+			send "&c%{lang.playerhelp3}"
+			send "&c%{lang.playerhelp4}"
 		if argument 1 is "test":
 			send "{@cityprefix} %{lang.msgtest1}% &c%{region.%player%}%&f."
 			if {city.limit.%player%} is true:

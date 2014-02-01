@@ -1,5 +1,8 @@
-#CityApartments 1.4 by Arachiozaur
-#If you are using the code for own purposes, add me in the credits.
+#|--------------------------------------------------------------------|
+#|CityApartments 1.4 by Arachiozaur                                   |
+#|If you are using the code for own purposes, add me in the credits.  |
+#|--------------------------------------------------------------------|
+
 #------------------Configuration start------------------
 options:
 	language: "EN"                           #Select your language, english is en, polish is pl, lang[EN or PL].yml file is required
@@ -64,7 +67,7 @@ on script load:
 		set {lang.lang} to value of "lang" pulled from "CAlangEN"
 		set {lang.language} to "English"
 		set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangEN"
-		set {lang.reloadmsg2} to value of "reloadmsg1" pulled from "CAlangEN"
+		set {lang.reloadmsg2} to value of "reloadmsg2" pulled from "CAlangEN"
 	if {@language} is "PL":
 		set {lang.onload} to value of "onload" pulled from "CAlangPL"
 		set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangPL"
@@ -105,103 +108,17 @@ on script load:
 		set {lang.lang} to value of "lang" pulled from "CAlangPL"
 		set {lang.language} to "Polski"
 		set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangPL"
-		set {lang.reloadmsg2} to value of "reloadmsg1" pulled from "CAlangPL"
+		set {lang.reloadmsg2} to value of "reloadmsg2" pulled from "CAlangPL"
 	if {@loadmessage} is true:
 		send "&f[&6Skript&f] &r{@cityprefix} &6%{lang.onload}%" to the console
 command /cityadmin <text> [<player>] [<text>]:
 	permission: skript.cityapartments.admin
 	trigger:
 		if argument 1 is "reload":
-			if argument 2 is set:
-				if argument 2 is "lang":
-					if {@language} is "EN":
-						set {lang.onload} to value of "onload" pulled from "CAlangEN"
-						set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangEN"
-						set {lang.listofsigns} to value of "listofsigns" pulled from "CAlangEN"
-						set {lang.clearstats} to value of "clearstats" pulled from "CAlangEN"
-						set {lang.adminhelp1} to value of "adminhelp1" pulled from "CAlangEN"
-						set {lang.adminhelp2} to value of "adminhelp2" pulled from "CAlangEN"
-						set {lang.adminhelp3} to value of "adminhelp3" pulled from "CAlangEN"
-						set {lang.adminhelp4} to value of "adminhelp4" pulled from "CAlangEN"
-						set {lang.adminhelp5} to value of "adminhelp5" pulled from "CAlangEN"
-						set {lang.adminhelp6} to value of "adminhelp6" pulled from "CAlangEN"
-						set {lang.adminhelp7} to value of "adminhelp7" pulled from "CAlangEN"
-						set {lang.adminhelp8} to value of "adminhelp8" pulled from "CAlangEN"
-						set {lang.adminhelp9} to value of "adminhelp9" pulled from "CAlangEN"
-						set {lang.adminhelp10} to value of "adminhelp10" pulled from "CAlangEN"
-						set {lang.adminhelp11} to value of "adminhelp11" pulled from "CAlangEN"
-						set {lang.debugon} to value of "debugon" pulled from "CAlangEN"
-						set {lang.debugoff} to value of "debugoff" pulled from "CAlangEN"
-						set {lang.clearmsg} to value of "clearmsg" pulled from "CAlangEN"
-						set {lang.clearerrormsg} to value of "clearerrormsg" pulled from "CAlangEN"
-						set {lang.signclearmsg} to value of "signclearmsg" pulled from "CAlangEN"
-						set {lang.intervalresetmsg} to value of "intervalresetmsg" pulled from "CAlangEN"
-						set {lang.playerhelp1} to value of "playerhelp1" pulled from "CAlangEN"
-						set {lang.playerhelp2} to value of "playerhelp2" pulled from "CAlangEN"
-						set {lang.playerhelp3} to value of "playerhelp3" pulled from "CAlangEN"
-						set {lang.playerhelp4} to value of "playerhelp4" pulled from "CAlangEN"
-						set {lang.msgtest1} to value of "msgtest1" pulled from "CAlangEN"
-						set {lang.msgtest2} to value of "msgtest2" pulled from "CAlangEN"
-						set {lang.msgtest3} to value of "msgtest3" pulled from "CAlangEN"
-						set {lang.add1} to value of "add1" pulled from "CAlangEN"
-						set {lang.add2} to value of "add2" pulled from "CAlangEN"
-						set {lang.add3} to value of "add3" pulled from "CAlangEN"
-						set {lang.remove1} to value of "remove1" pulled from "CAlangEN"
-						set {lang.remove2} to value of "remove2" pulled from "CAlangEN"
-						set {lang.remove3} to value of "remove3" pulled from "CAlangEN"
-						set {lang.managingdisabled} to value of "managingdisabled" pulled from "CAlangEN"
-						set {lang.dontspam} to value of "dontspam" pulled from "CAlangEN"
-						set {lang.lang} to value of "lang" pulled from "CAlangEN"
-						set {lang.language} to "English"
-						set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangEN"
-						set {lang.reloadmsg2} to value of "reloadmsg1" pulled from "CAlangEN"
-						wait a second
-						send "{@cityprefix} %{lang.reloadmsg2}%"
-					if {@language} is "PL":
-						set {lang.onload} to value of "onload" pulled from "CAlangPL"
-						set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangPL"
-						set {lang.listofsigns} to value of "listofsigns" pulled from "CAlangPL"
-						set {lang.clearstats} to value of "clearstats" pulled from "CAlangPL"
-						set {lang.adminhelp1} to value of "adminhelp1" pulled from "CAlangPL"
-						set {lang.adminhelp2} to value of "adminhelp2" pulled from "CAlangPL"
-						set {lang.adminhelp3} to value of "adminhelp3" pulled from "CAlangPL"
-						set {lang.adminhelp4} to value of "adminhelp4" pulled from "CAlangPL"
-						set {lang.adminhelp5} to value of "adminhelp5" pulled from "CAlangPL"
-						set {lang.adminhelp6} to value of "adminhelp6" pulled from "CAlangPL"
-						set {lang.adminhelp7} to value of "adminhelp7" pulled from "CAlangPL"
-						set {lang.adminhelp8} to value of "adminhelp8" pulled from "CAlangPL"
-						set {lang.adminhelp9} to value of "adminhelp9" pulled from "CAlangPL"
-						set {lang.adminhelp10} to value of "adminhelp10" pulled from "CAlangPL"
-						set {lang.adminhelp11} to value of "adminhelp11" pulled from "CAlangPL"
-						set {lang.debugon} to value of "debugon" pulled from "CAlangPL"
-						set {lang.debugoff} to value of "debugoff" pulled from "CAlangPL"
-						set {lang.clearmsg} to value of "clearmsg" pulled from "CAlangPL"
-						set {lang.clearerrormsg} to value of "clearerrormsg" pulled from "CAlangPL"
-						set {lang.signclearmsg} to value of "signclearmsg" pulled from "CAlangPL"
-						set {lang.intervalresetmsg} to value of "intervalresetmsg" pulled from "CAlangPL"
-						set {lang.playerhelp1} to value of "playerhelp1" pulled from "CAlangPL"
-						set {lang.playerhelp2} to value of "playerhelp2" pulled from "CAlangPL"
-						set {lang.playerhelp3} to value of "playerhelp3" pulled from "CAlangPL"
-						set {lang.playerhelp4} to value of "playerhelp4" pulled from "CAlangPL"
-						set {lang.msgtest1} to value of "msgtest1" pulled from "CAlangPL"
-						set {lang.msgtest2} to value of "msgtest2" pulled from "CAlangPL"
-						set {lang.msgtest3} to value of "msgtest3" pulled from "CAlangPL"
-						set {lang.add1} to value of "add1" pulled from "CAlangPL"
-						set {lang.add2} to value of "add2" pulled from "CAlangPL"
-						set {lang.add3} to value of "add3" pulled from "CAlangPL"
-						set {lang.remove1} to value of "remove1" pulled from "CAlangPL"
-						set {lang.remove2} to value of "remove2" pulled from "CAlangPL"
-						set {lang.remove3} to value of "remove3" pulled from "CAlangPL"
-						set {lang.managingdisabled} to value of "managingdisabled" pulled from "CAlangPL"
-						set {lang.dontspam} to value of "dontspam" pulled from "CAlangPL"
-						set {lang.lang} to value of "lang" pulled from "CAlangPL"
-						set {lang.language} to "Polski"
-						set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangPL"
-						set {lang.reloadmsg2} to value of "reloadmsg1" pulled from "CAlangPL"
-						wait a second
-						send "{@cityprefix} %{lang.reloadmsg2}%"
-			else:
-				send "{@cityprefix} %{lang.reloadmsg1}%"
+			send "{@prefix} %{lang.reloadmsg1}"
+			execute console command "/sk reload region"
+			wait 1 second
+			send "{@prefix} %{lang.reloadmsg2}"
 		if argument 1 is "lang":
 			send "{@cityprefix} %{lang.lang}% %{language}%" to player
 		if argument 1 is "stats":

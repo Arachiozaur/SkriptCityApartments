@@ -23,3 +23,4 @@
     - /city info and /city test are now one command
 	- Added new command: /city reload
 	- Added new sentences in language files
+	- Fixed help for players

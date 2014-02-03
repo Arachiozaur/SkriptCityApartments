@@ -3,7 +3,7 @@
 #|If you are using the code for own purposes, add me in the credits. |
 #|-------------------------------------------------------------------|
 
-#------------------Configuration start------------------
+#------------------Configuration start-------------------------------|
 options:
 	language: "EN"                           #Select your language, english is en, polish is pl, langEN.yml or langPL.yml file is required
 	cityprefix: &6[&4&lCityApartments&6]&r&f #Main commands prefix
@@ -17,17 +17,17 @@ options:
 	interval: true                           #Should interval between using /city info be enabled?
 	cmdinterval: 2 seconds                   #Interval between using player commands in seconds, default is 2 seconds.
 	updatenotifyinterval: 1 hour             #Interval between sending update notify
-	version: 1.3                             #Do not change.
-#------------------Configuration end------------------
+	version: "1.3"                           #Do not change.
+#------------------Configuration end---------------------------------|
 
-#------------------Variables start------------------
+#--------------------Variables start---------------------------------|
 #DO NOT TOUCH IT
 variables:
 	cmd.%player% = true
 	city.debug = false
-#------------------Variables end------------------
+#----------------------Variables end---------------------------------|
 
-#------------------Script code start------------------
+#---------------------Language variables start-----------------------|
 on script load:
 	if {@language} is "EN":
 		set {lang.onload} to value of "onload" pulled from "CAlangEN"
@@ -70,6 +70,11 @@ on script load:
 		set {lang.language} to "English"
 		set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangEN"
 		set {lang.reloadmsg2} to value of "reloadmsg2" pulled from "CAlangEN"
+		set {lang.outofdatemsg} to value of "outofdatemsg" pulled from "CAlangEN"
+		set {lang.outofdatemsg} to value of "outofdatemsg" pulled from "CAlangEN"
+		set {lang.uptodatemsg1} to value of "uptodatemsg1" pulled from "CAlangEN"
+		set {lang.uptodatemsg2} to value of "uptodatemsg2" pulled from "CAlangEN"
+		set {lang.uptodatemsg3} to value of "uptodatemsg3" pulled from "CAlangEN"
 	if {@language} is "PL":
 		set {lang.onload} to value of "onload" pulled from "CAlangPL"
 		set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangPL"
@@ -111,11 +116,35 @@ on script load:
 		set {lang.language} to "Polski"
 		set {lang.reloadmsg1} to value of "reloadmsg1" pulled from "CAlangPL"
 		set {lang.reloadmsg2} to value of "reloadmsg2" pulled from "CAlangPL"
+		set {lang.outofdatemsg} to value of "outofdatemsg" pulled from "CAlangPL"
+		set {lang.uptodatemsg1} to value of "uptodatemsg1" pulled from "CAlangPL"
+		set {lang.uptodatemsg2} to value of "uptodatemsg2" pulled from "CAlangPL"
+		set {lang.uptodatemsg3} to value of "uptodatemsg3" pulled from "CAlangPL"
 	if {@loadmessage} is true:
 		send "&f[&6Skript&f] &r{@cityprefix} &6%{lang.onload}%" to the console
+#---------------------Language variables end-------------------------|
+		
+#----------------------Updater code start----------------------------|
+every 2 hours:
+	set {newestversion} to text from url "https://raw.github.com/Arachiozaur/SkriptCityApartments/master/version.xml"
+	wait 1 tick
+	set {currentversion} to {@version}
+	if {currentversion} is not {newestversion}:
+		send "{@cityprefix} %{lang.outofdatemsg}%: https://github.com/Arachiozaur/SkriptCityApartments" to console
+#----------------------Updater code end------------------------------|
+
+#--------------------------Script code start-------------------------|
 command /cityadmin <text> [<player>] [<text>]:
 	permission: skript.cityapartments.admin
 	trigger:
+		if argument 1 is "version":
+			set {newestversion} to text from url "https://raw.github.com/Arachiozaur/SkriptCityApartments/master/version.xml"
+			wait 1 tick
+			set {currentversion} to {@version}
+			if {currentversion} is not {newestversion}:
+				send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%. &c%{lang.outofdatemsg}%:&f https://github.com/Arachiozaur/SkriptCityApartments" to player
+			else:
+				send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%. &2%{lang.uptodatemsg1}% up to date." to player
 		if argument 1 is "reload":
 			send "{@cityprefix} %{lang.reloadmsg1}%"
 			execute console command "/sk reload region"
@@ -281,4 +310,4 @@ on rightclick on a sign:
 on rightclick on a sign:
 	if line 1 of the clicked block is "&4[Apartment]":
 		send "{@cityprefix} This apartment is occupied."
-#------------------Script code end------------------
+#--------------------------Script code end---------------------------|

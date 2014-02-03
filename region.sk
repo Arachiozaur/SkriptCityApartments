@@ -125,7 +125,7 @@ on script load:
 #---------------------Language variables end-------------------------|
 		
 #----------------------Updater code start----------------------------|
-every 2 hours:
+every {@updatenotifyinterval}:
 	set {newestversion} to text from url "https://raw.github.com/Arachiozaur/SkriptCityApartments/master/version.xml"
 	wait 1 tick
 	set {currentversion} to {@version}

@@ -16,6 +16,8 @@ options:
 	city.managing.removeprice: 1             #Payment for removing members from home, if city.managing.pay is true.
 	interval: true                           #Should interval between using /city info be enabled?
 	cmdinterval: 2 seconds                   #Interval between using player commands in seconds, default is 2 seconds.
+	updatenotifyinterval: 1 hour             #Interval between sending update notify
+	version: 1.3                             #Do not change.
 #------------------Configuration end------------------
 
 #------------------Variables start------------------

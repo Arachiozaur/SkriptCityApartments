@@ -20,7 +20,7 @@
 	- Added language files
 	
 1.4
-    - /city info and /city test are now one command
+    - /city info and /city test are now one command - /city info
 	- Added new command: /city reload
 	- Added new command: /cityadmin version
 	- Added new sentences in language files

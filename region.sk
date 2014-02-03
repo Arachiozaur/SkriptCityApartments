@@ -205,12 +205,6 @@ command /city <text> [<player>]:
 			send "&c/city test - Checking your home status."
 			send "&c/city add <player> - Add player to your home."
 			send "&c/city remove <player> - Remove player from your home."
-		if argument 1 is "test":
-			send "{@cityprefix} %{lang.msgtest1}% &c%{region.%player%}%&f."
-			if {city.limit.%player%} is true:
-				send "{@cityprefix} %{lang.msgtest2}%"
-			else:
-				send "{@cityprefix} %{lang.msgtest3}%"
 		if argument 1 is "add":
 			if {@city.managing} is true:
 				if {@city.managing.paying} is true:
@@ -234,6 +228,11 @@ command /city <text> [<player>]:
 				if {cmd.%player%} is true:
 					if {city.debug} is true:
 						message "{@debugprefix} {cmd.%player%} is true." to player
+					send "{@cityprefix} %{lang.msgtest1}% &c%{region.%player%}%&f."
+					if {city.limit.%player%} is true:
+						send "{@cityprefix} %{lang.msgtest2}%"
+					else:
+						send "{@cityprefix} %{lang.msgtest3}%"
 					execute console command "pex user %player% add worldguard.region.info.* {@world}"
 					make player execute command "rg info %{region.%player%}%"
 					execute console command "pex user %player% remove worldguard.region.info.* {@world}"

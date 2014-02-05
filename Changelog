@@ -26,3 +26,9 @@
 	- Added new sentences in language files
 	- Fixed help for players
 	- Added update notifying
+
+1.5
+	- Code optimization
+	- Optional broadcasting when player buys an apartments
+	- Better update notifier
+	- Fixed updater

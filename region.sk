@@ -5,19 +5,24 @@
 
 #------------------Configuration start-------------------------------|
 options:
+#-------Main configuration-------#
 	language: "EN"                           #Select your language, english is en, polish is pl, langEN.yml or langPL.yml file is required
 	cityprefix: &6[&4&lCityApartments&6]&r&f #Main commands prefix
 	debugprefix: &4&l[&r&4&lCA_DEBUG&l]&r&f  #Debuging prefix
 	world: world                             #A world in which there are regions specified on CA signs
 	loadmessage: true                        #Send message when script is loaded, true or false
+	broadcastbought: true                    #Broadcasting to all players that player bought an apartment
 	city.managing: true                      #Can players (including admins) manage (add or remove members) their homes? 
 	city.managing.paying: true               #Do players have to pay for managing (adding or removing members) their homes?
 	city.managing.addprice: 1                #Payment for adding members to home, if city.managing.pay is true.
 	city.managing.removeprice: 1             #Payment for removing members from home, if city.managing.pay is true.
 	interval: true                           #Should interval between using /city info be enabled?
 	cmdinterval: 2 seconds                   #Interval between using player commands in seconds, default is 2 seconds.
+
+#-------Update notifier configuration-------#
 	updatenotifyinterval: 1 hour             #Interval between sending update notify
 	version: "1.3"                           #Do not change.
+
 #------------------Configuration end---------------------------------|
 
 #--------------------Variables start---------------------------------|
@@ -75,6 +80,18 @@ on script load:
 		set {lang.uptodatemsg1} to value of "uptodatemsg1" pulled from "CAlangEN"
 		set {lang.uptodatemsg2} to value of "uptodatemsg2" pulled from "CAlangEN"
 		set {lang.uptodatemsg3} to value of "uptodatemsg3" pulled from "CAlangEN"
+		set {lang.player} to value of "player" pulled from "CAlangEN"
+		set {lang.boughtapartment} to value of "boughtapartment" pulled from "CAlangEN"
+		set {lang.nopermission} to value of "nopermission" pulled from "CAlangEN"
+		set {lang.secondnotset} to value of "secondnotset" pulled from "CAlangEN"
+		set {lang.thirdnotset} to value of "thirdnotset" pulled from "CAlangEN"
+		set {lang.signcreated} to value of "signcreated" pulled from "CAlangEN"
+		set {lang.noop} to value of "noop" pulled from "CAlangEN"
+		set {lang.signdestroyed} to value of "signdestroyed" pulled from "CAlangEN"
+		set {lang.signoccupied} to value of "signoccupied" pulled from "CAlangEN"
+		set {lang.nomoney} to value of "nomoney" pulled from "CAlangEN"
+		set {lang.apartmentlimit} to value of "apartmentlimit" pulled from "CAlangEN"
+		
 	if {@language} is "PL":
 		set {lang.onload} to value of "onload" pulled from "CAlangPL"
 		set {lang.amountofsigns} to value of "amountofsigns" pulled from "CAlangPL"
@@ -120,17 +137,29 @@ on script load:
 		set {lang.uptodatemsg1} to value of "uptodatemsg1" pulled from "CAlangPL"
 		set {lang.uptodatemsg2} to value of "uptodatemsg2" pulled from "CAlangPL"
 		set {lang.uptodatemsg3} to value of "uptodatemsg3" pulled from "CAlangPL"
+		set {lang.player} to value of "player" pulled from "CAlangPL"
+		set {lang.boughtapartment} to value of "boughtapartment" pulled from "CAlangPL"
+		set {lang.nopermission} to value of "nopermission" pulled from "CAlangPL"
+		set {lang.secondnotset} to value of "secondnotset" pulled from "CAlangPL"
+		set {lang.thirdnotset} to value of "thirdnotset" pulled from "CAlangPL"
+		set {lang.signcreated} to value of "signcreated" pulled from "CAlangPL"
+		set {lang.noop} to value of "noop" pulled from "CAlangPL"
+		set {lang.signdestroyed} to value of "signdestroyed" pulled from "CAlangPL"
+		set {lang.signoccupied} to value of "signoccupied" pulled from "CAlangPL"
+		set {lang.nomoney} to value of "nomoney" pulled from "CAlangPL"
+		set {lang.apartmentlimit} to value of "apartmentlimit" pulled from "CAlangPL"
+#---------------------Language variables end-------------------------|
+
 	if {@loadmessage} is true:
 		send "&f[&6Skript&f] &r{@cityprefix} &6%{lang.onload}%" to the console
-#---------------------Language variables end-------------------------|
-		
+
 #----------------------Updater code start----------------------------|
 every {@updatenotifyinterval}:
 	set {newestversion} to text from url "https://raw.github.com/Arachiozaur/SkriptCityApartments/master/version.xml"
 	wait 1 tick
 	set {currentversion} to {@version}
 	if {currentversion} is not {newestversion}:
-		send "{@cityprefix} %{lang.outofdatemsg}%: https://github.com/Arachiozaur/SkriptCityApartments" to console
+		send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%. &c%{lang.outofdatemsg}%:&f https://github.com/Arachiozaur/SkriptCityApartments" to console
 #----------------------Updater code end------------------------------|
 
 #--------------------------Script code start-------------------------|
@@ -201,10 +230,10 @@ command /city <text> [<player>]:
 	trigger:
 		if argument 1 is "help":
 			send "{@cityprefix}"
-			send "&2Commands:"
-			send "&c/city test - Checking your home status."
-			send "&c/city add <player> - Add player to your home."
-			send "&c/city remove <player> - Remove player from your home."
+			send "&2%{lang.playerhelp1}%"
+			send "&c%{lang.playerhelp2}%"
+			send "&c%{lang.playerhelp3}%"
+			send "&c%{lang.playerhelp4}%"
 		if argument 1 is "add":
 			if {@city.managing} is true:
 				if {@city.managing.paying} is true:
@@ -256,26 +285,29 @@ on sign change:
 			if {city.debug} is true:
 				message "{@debugprefix} Sign placed." to player
 			if player does not have permission "skript.cityapartments.make":
-				message "{@cityprefix} You don't have permission &4skript.city.sign &fto make a &aCityApartments &fsign."
+				message "{@cityprefix} %{lang.nopermission}%"
 				cancel event
 				stop
 			if line 2 is empty:
-				message "{@cityprefix} Second line is not set."
+				message "{@cityprefix} %{lang.secondnotset}%"
 				cancel event
 				stop
 			if line 3 is empty:
-				message "{@cityprefix} Third line is not set."
+				message "{@cityprefix} %{lang.thirdnotset}%"
 				cancel event
 				stop
-			send "{@cityprefix} Sign succesfully created!"
+			send "{@cityprefix} %{lang.signcreated}%"
 		else:
-			send "{@cityprefix} You don't have permission to make CA signs!"
+			send "{@cityprefix} %{lang.noop}%"
 on break of sign:
 	if line 1 is "&4[Apartment]" or "&6[CITY]":
 		if player is op:
-			send "{@cityprefix} You have destroyed CityApartments sign!"
+			send "{@cityprefix} %{lang.signdestroyed}%"
 			remove 1 from {city.stats}
 on rightclick on a sign:
+	if line 1 of the clicked block is "&4[Apartment]":
+		send "{@cityprefix} %{lang.signoccupied}%"
+		stop
 	if line 1 of the clicked block is "&6[CITY]":
 		if {city.debug} is true:
 			message "{@debugprefix} Buy sign hit." to player
@@ -286,12 +318,12 @@ on rightclick on a sign:
 				message "{@debugprefix} Player has permission." to player
 			set {_price} to line 3 of the clicked block
 			if player's money is less than {_price}:
-				send "{@cityprefix} You don't have enough money."
+				send "{@cityprefix} %{lang.nomoney}%"
 				stop
 			else:
 				cancel event
 		if {city.limit.%player%} is true:
-			send "{@cityprefix} You have reached your apartment limit!"
+			send "{@cityprefix} %{lang.apartmentlimit}%"
 			cancel event
 		else:
 			set {region.%player%} to line 2 of clicked block
@@ -303,10 +335,9 @@ on rightclick on a sign:
 			set line 2 of the clicked block to "%player%"
 			set line 3 of the clicked block to " "
 			set {city.limit.%player%} to true
+			if {@broadcastbought} is true:
+				broadcast "{@cityprefix} %{lang.player}% %player% %{lang.boughtapartment}% %{region.%player%}%!"
 			stop
 	else:
 		stop trigger
-on rightclick on a sign:
-	if line 1 of the clicked block is "&4[Apartment]":
-		send "{@cityprefix} This apartment is occupied."
 #--------------------------Script code end---------------------------|

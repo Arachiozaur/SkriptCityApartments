@@ -32,3 +32,5 @@
 	- Optional broadcasting when player buys an apartments
 	- Better update notifier
 	- Fixed updater
+	- Help commands are now one command
+    - Fixed language files

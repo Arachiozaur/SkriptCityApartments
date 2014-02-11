@@ -21,7 +21,7 @@ options:
 
 #-------Update notifier configuration-------#
 	updatenotifyinterval: 1 hour             #Interval between sending update notify
-	version: "1.3"                           #Do not change.
+	version: "1.4"                           #Do not change.
 
 #------------------Configuration end---------------------------------|
 
@@ -136,7 +136,6 @@ on script load:
 		set {lang.outofdatemsg} to value of "outofdatemsg" pulled from "CAlangPL"
 		set {lang.uptodatemsg1} to value of "uptodatemsg1" pulled from "CAlangPL"
 		set {lang.uptodatemsg2} to value of "uptodatemsg2" pulled from "CAlangPL"
-		set {lang.uptodatemsg3} to value of "uptodatemsg3" pulled from "CAlangPL"
 		set {lang.player} to value of "player" pulled from "CAlangPL"
 		set {lang.boughtapartment} to value of "boughtapartment" pulled from "CAlangPL"
 		set {lang.nopermission} to value of "nopermission" pulled from "CAlangPL"
@@ -159,7 +158,8 @@ every {@updatenotifyinterval}:
 	wait 1 tick
 	set {currentversion} to {@version}
 	if {currentversion} is not {newestversion}:
-		send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%. &c%{lang.outofdatemsg}%:&f https://github.com/Arachiozaur/SkriptCityApartments" to console
+		send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%." to console
+		send "{@cityprefix} &c%{lang.outofdatemsg}%:&f https://github.com/Arachiozaur/SkriptCityApartments" to console
 #----------------------Updater code end------------------------------|
 
 #--------------------------Script code start-------------------------|
@@ -171,9 +171,11 @@ command /cityadmin <text> [<player>] [<text>]:
 			wait 1 tick
 			set {currentversion} to {@version}
 			if {currentversion} is not {newestversion}:
-				send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%. &c%{lang.outofdatemsg}%:&f https://github.com/Arachiozaur/SkriptCityApartments" to player
+				send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%." to player
+				send "{@cityprefix} &c%{lang.outofdatemsg}%:&f https://github.com/Arachiozaur/SkriptCityApartments" to player
 			else:
-				send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%. &2%{lang.uptodatemsg1}% up to date." to player
+				send "{@cityprefix} %{lang.uptodatemsg1}% %{currentversion}%. %{lang.uptodatemsg2}% %{newestversion}%." to player
+				send "&2%{lang.uptodatemsg1}% up to date." to player
 		if argument 1 is "reload":
 			send "{@cityprefix} %{lang.reloadmsg1}%"
 			execute console command "/sk reload region"
@@ -189,19 +191,6 @@ command /cityadmin <text> [<player>] [<text>]:
 			set {city.stats} to 0
 			clear {signs::*}
 			send "{@cityprefix} %{lang.clearstats}%"
-		if argument 1 is "help":
-			send "{@cityprefix}" 
-			send "&2%{lang.adminhelp1}%" to player
-			send "&c%{lang.adminhelp2}%" to player
-			send "&c%{lang.adminhelp3}%" to player
-			send "&c%{lang.adminhelp4}%" to player
-			send "&2%{lang.adminhelp5}%" to player
-			send "&c%{lang.adminhelp6}% " to player
-			send "&c%{lang.adminhelp7}% " to player
-			send "&c%{lang.adminhelp8}% " to player
-			send "&c%{lang.adminhelp9}% " to player
-			send "&c%{lang.adminhelp10}% " to player
-			send "&c%{lang.adminhelp11}% " to player		
 		if argument 1 is "debug":
 			if argument 3 is "on":
 				set {city.debug} to true
@@ -230,10 +219,24 @@ command /city <text> [<player>]:
 	trigger:
 		if argument 1 is "help":
 			send "{@cityprefix}"
-			send "&2%{lang.playerhelp1}%"
-			send "&c%{lang.playerhelp2}%"
-			send "&c%{lang.playerhelp3}%"
-			send "&c%{lang.playerhelp4}%"
+			send "&a%{lang.playerhelp1}%"
+			send "&2%{lang.playerhelp2}%"
+			send "&2%{lang.playerhelp3}%"
+			send "&2%{lang.playerhelp4}%"
+			if player is op:
+				send ""
+				send "&a%{lang.adminhelp1}%" to player
+				send "&e%{lang.adminhelp2}%" to player
+				send "&e%{lang.adminhelp3}%" to player
+				send "&e%{lang.adminhelp4}%" to player
+				send ""
+				send "&a%{lang.adminhelp5}%" to player
+				send "&c%{lang.adminhelp6}% " to player
+				send "&c%{lang.adminhelp7}% " to player
+				send "&c%{lang.adminhelp8}% " to player
+				send "&c%{lang.adminhelp9}% " to player
+				send "&c%{lang.adminhelp10}% " to player
+				send "&c%{lang.adminhelp11}% " to player
 		if argument 1 is "add":
 			if {@city.managing} is true:
 				if {@city.managing.paying} is true:

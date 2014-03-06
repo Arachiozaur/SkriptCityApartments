@@ -1,5 +1,5 @@
 #|-------------------------------------------------------------------|
-#|CityApartments 1.4 by Arachiozaur                                  |
+#|CityApartments 1.5 by Arachiozaur                                  |
 #|If you are using the code for own purposes, add me in the credits. |
 #|-------------------------------------------------------------------|
 
@@ -21,7 +21,7 @@ options:
 
 #-------Update notifier configuration-------#
 	updatenotifyinterval: 1 hour             #Interval between sending update notify
-	version: "1.4"                           #Do not change.
+	version: "1.5"                           #Do not change.
 
 #------------------Configuration end---------------------------------|
 
@@ -50,6 +50,7 @@ on script load:
 		set {lang.adminhelp9} to value of "adminhelp9" pulled from "CAlangEN"
 		set {lang.adminhelp10} to value of "adminhelp10" pulled from "CAlangEN"
 		set {lang.adminhelp11} to value of "adminhelp11" pulled from "CAlangEN"
+		set {lang.adminhelp12} to value of "adminhelp12" pulled from "CAlangEN"
 		set {lang.debugon} to value of "debugon" pulled from "CAlangEN"
 		set {lang.debugoff} to value of "debugoff" pulled from "CAlangEN"
 		set {lang.clearmsg} to value of "clearmsg" pulled from "CAlangEN"
@@ -108,6 +109,7 @@ on script load:
 		set {lang.adminhelp9} to value of "adminhelp9" pulled from "CAlangPL"
 		set {lang.adminhelp10} to value of "adminhelp10" pulled from "CAlangPL"
 		set {lang.adminhelp11} to value of "adminhelp11" pulled from "CAlangPL"
+		set {lang.adminhelp12} to value of "adminhelp12" pulled from "CAlangPL"
 		set {lang.debugon} to value of "debugon" pulled from "CAlangPL"
 		set {lang.debugoff} to value of "debugoff" pulled from "CAlangPL"
 		set {lang.clearmsg} to value of "clearmsg" pulled from "CAlangPL"
@@ -237,6 +239,7 @@ command /city <text> [<player>]:
 				send "&c%{lang.adminhelp9}% " to player
 				send "&c%{lang.adminhelp10}% " to player
 				send "&c%{lang.adminhelp11}% " to player
+				send "&c%{lang.adminhelp12}% " to player
 		if argument 1 is "add":
 			if {@city.managing} is true:
 				if {@city.managing.paying} is true:
